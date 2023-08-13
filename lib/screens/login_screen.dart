@@ -85,12 +85,14 @@ const LoginScreen({super.key});
                               MaterialButton(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                 disabledColor: Colors.grey,
-                                color: Colors.deepOrange,
+                                color: Color.fromRGBO(236, 84, 42, 1),
                                 child: Container(
                                   padding: EdgeInsets.symmetric(horizontal: 70, vertical: 15),
                                   child: Text('Ingresar', style: TextStyle(color: Colors.white),),
                                 ),
-                                onPressed: () => {},
+                                onPressed: () => {
+                                  Navigator.pushNamed(context, 'home')
+                                },
                               )
                             ],
                           ),
@@ -111,11 +113,16 @@ const LoginScreen({super.key});
   SafeArea icono() {
     return SafeArea(
             child: Container(
-              width: double.infinity,
-              margin: const EdgeInsets.only(top: 30), //Margen
-              child: const Icon(Icons.person_pin,
-              color: Colors.white,
-              size: 100,),
+              width: 300,
+              height: 200,
+              margin: const EdgeInsets.only(left:30), //Margen
+               child:
+                Center(
+                  child: Image(
+                    image: AssetImage('assets/images/logoinicio.png'),
+                    fit: BoxFit.cover
+                    ),
+                ),
             ),
           );
   }

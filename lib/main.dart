@@ -1,3 +1,4 @@
+import 'package:clamaroj/screens/home_screen.dart';
 import 'package:clamaroj/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'Material App',
       routes: {
         'login': (_) => LoginScreen(),
+        'home': (_) => HomeScreen(),
       },
       initialRoute: 'login',
     );
