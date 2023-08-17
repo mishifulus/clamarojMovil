@@ -101,20 +101,20 @@ const LoginScreen({super.key});
                                   final correo = txtCorreo.text;
                                   final pass = txtPass.text;
 
-                                  final loginProvider = Provider.of<Login_provider>(context, listen: false);
-                                  await loginProvider.getLogin(correo, pass);
+                                  //final loginProvider = Provider.of<Login_provider>(context, listen: false);
+                                  //await loginProvider.getLogin(correo, pass);
 
-                                  int statusCode = loginProvider.status;
+                                  //int statusCode = loginProvider.status;
 
-                                  if (statusCode == 200)
-                                  {
+                                  //if (statusCode == 200)
+                                  //{
                                     Navigator.pushReplacementNamed(context, 'home');
-                                  }
-                                  else
-                                  {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('Usuario o contraseña incorrectos')));
-                                  }
+                                  //}
+                                  //else
+                                  //{
+                                    //ScaffoldMessenger.of(context).showSnackBar(
+                                      //SnackBar(content: Text('Usuario o contraseña incorrectos')));
+                                  //}
                                 },
                               )
                             ],
