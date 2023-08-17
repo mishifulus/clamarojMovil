@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:clamaroj/screens/materias_screen.dart';
+import 'package:clamaroj/widgets/drawers.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,64 +11,7 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Productos'),
         backgroundColor: const Color.fromRGBO(236, 84, 42, 1),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              child: Text(
-                "Menu Principal",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              alignment: Alignment.center,
-              height: 150,
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(236, 84, 42, 1),
-              ),
-            ),
-            Builder(
-              builder: (BuildContext context) => ListTile(
-                title: Text(
-                  "Productos",
-                  style: TextStyle(
-                  color: Color.fromRGBO(236, 84, 42, 1),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
-                  );
-                },
-              ),
-            ),
-            Builder(
-              builder: (BuildContext context) => ListTile(
-                title: Text(
-                  "Materias Primas",
-                  style: TextStyle(
-                  color: Color.fromRGBO(236, 84, 42, 1),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                    ),
-                  ),
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => MateriasScreen()),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: Drawers.drawer(title: "Menu Principal"),
       body: Center(
         child: Text("Bienvenido"),
       ),
