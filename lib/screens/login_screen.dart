@@ -1,5 +1,7 @@
+import 'package:clamaroj/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:clamaroj/widgets/input_decoration.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
 const LoginScreen({super.key});
@@ -24,6 +26,9 @@ const LoginScreen({super.key});
   }
 
   SingleChildScrollView loginForm(BuildContext context) {
+    var txtCorreo = TextEditingController();
+    var txtPass = TextEditingController();
+
     return SingleChildScrollView(
       child: Column(
               children: [
@@ -58,6 +63,7 @@ const LoginScreen({super.key});
                               TextFormField(
                                 autocorrect: false,
                                 keyboardType: TextInputType.emailAddress,
+                                controller: txtCorreo,
                                 decoration: InputDecorations.inputDecoration(
                                   hinttext: 'ejemplo@correo.com', labeltext: 'Correo electrónico', icono: const Icon(Icons.alternate_email_rounded),),
                                 validator: (value) 
@@ -72,6 +78,7 @@ const LoginScreen({super.key});
                               TextFormField(
                                 autocorrect: false,
                                 obscureText: true,
+                                controller: txtPass,
                                 decoration: InputDecorations.inputDecoration(
                                   hinttext: '*****', labeltext: 'Contraseña', icono: const Icon(Icons.lock_open_outlined),),
                                   validator: (value) 
@@ -90,8 +97,24 @@ const LoginScreen({super.key});
                                   padding: EdgeInsets.symmetric(horizontal: 70, vertical: 15),
                                   child: Text('Ingresar', style: TextStyle(color: Colors.white),),
                                 ),
-                                onPressed: () => {
-                                  Navigator.pushNamed(context, 'home')
+                                onPressed: () async {
+                                  final correo = txtCorreo.text;
+                                  final pass = txtPass.text;
+
+                                  //final loginProvider = Provider.of<Login_provider>(context, listen: false);
+                                  //await loginProvider.getLogin(correo, pass);
+
+                                  //int statusCode = loginProvider.status;
+
+                                  //if (statusCode == 200)
+                                  //{
+                                    Navigator.pushReplacementNamed(context, 'home');
+                                  //}
+                                  //else
+                                  //{
+                                    //ScaffoldMessenger.of(context).showSnackBar(
+                                      //SnackBar(content: Text('Usuario o contraseña incorrectos')));
+                                  //}
                                 },
                               )
                             ],
