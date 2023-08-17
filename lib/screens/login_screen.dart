@@ -2,9 +2,27 @@ import 'package:clamaroj/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:clamaroj/widgets/input_decoration.dart';
 import 'package:provider/provider.dart';
+import 'package:clamaroj/providers/authnotifier.dart';
 
-class LoginScreen extends StatelessWidget {
-const LoginScreen({super.key});
+
+String correoUsuario = "";
+int sesion = 0;
+
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen>
+{
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +110,10 @@ const LoginScreen({super.key});
                               MaterialButton(
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                 disabledColor: Colors.grey,
-                                color: Color.fromRGBO(236, 84, 42, 1),
+                                color: const Color.fromRGBO(236, 84, 42, 1),
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 70, vertical: 15),
-                                  child: Text('Ingresar', style: TextStyle(color: Colors.white),),
+                                  padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 15),
+                                  child: const Text('Ingresar', style: TextStyle(color: Colors.white),),
                                 ),
                                 onPressed: () async {
                                   final correo = txtCorreo.text;
@@ -108,7 +126,9 @@ const LoginScreen({super.key});
 
                                   //if (statusCode == 200)
                                   //{
-                                    Navigator.pushReplacementNamed(context, 'home');
+                                    final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+                                    authNotifier.logIn(correo);
+                                    Navigator.pushReplacementNamed(context, 'productos');
                                   //}
                                   //else
                                   //{
