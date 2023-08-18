@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen>
                                 validator: (value) 
                                 {
                                   String pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-                                  RegExp regExp = new RegExp(pattern);
+                                  RegExp regExp = RegExp(pattern);
                                   return regExp.hasMatch(value ?? '')
                                   ? null: 'El valor ingresado no es un correo';
                                 },
@@ -119,22 +119,22 @@ class _LoginScreenState extends State<LoginScreen>
                                   final correo = txtCorreo.text;
                                   final pass = txtPass.text;
 
-                                  //final loginProvider = Provider.of<Login_provider>(context, listen: false);
-                                  //await loginProvider.getLogin(correo, pass);
+                                  final loginProvider = Provider.of<Login_provider>(context, listen: false);
+                                  await loginProvider.getLogin(correo, pass);
 
-                                  //int statusCode = loginProvider.status;
+                                  int statusCode = loginProvider.status;
 
-                                  //if (statusCode == 200)
-                                  //{
+                                  if (statusCode == 200)
+                                  {
                                     final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
                                     authNotifier.logIn(correo);
                                     Navigator.pushReplacementNamed(context, 'productos');
-                                  //}
-                                  //else
-                                  //{
-                                    //ScaffoldMessenger.of(context).showSnackBar(
-                                      //SnackBar(content: Text('Usuario o contraseña incorrectos')));
-                                  //}
+                                  }
+                                  else
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Usuario o contraseña incorrectos')));
+                                  }
                                 },
                               )
                             ],
@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen>
               height: 200,
               margin: const EdgeInsets.only(left:30), //Margen
                child:
-                Center(
+                const Center(
                   child: Image(
                     image: AssetImage('assets/images/logoinicio.png'),
                     fit: BoxFit.cover

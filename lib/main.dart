@@ -1,5 +1,6 @@
 import 'package:clamaroj/providers/login_provider.dart';
 import 'package:clamaroj/providers/authnotifier.dart';
+import 'package:clamaroj/providers/producto_provider.dart';
 import 'package:clamaroj/screens/home_screen.dart';
 import 'package:clamaroj/screens/login_screen.dart';
 import 'package:clamaroj/screens/materias_screen.dart';
@@ -14,7 +15,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Login_provider()),
-        ChangeNotifierProvider(create: (_) => AuthNotifier())], //Otro provider
+        ChangeNotifierProvider(create: (_) => AuthNotifier()),
+        ChangeNotifierProvider(create: (_) => ProductoProvider())
+        ], //Otro provider
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material App',

@@ -1,7 +1,11 @@
+import 'package:clamaroj/models/producto.dart';
 import 'package:clamaroj/screens/add_producto_screen.dart';
 import 'package:clamaroj/screens/edit_producto_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:clamaroj/widgets/drawers.dart';
+import 'package:provider/provider.dart';
+import 'package:clamaroj/providers/producto_provider.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,8 +16,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen>
 {
-  List<Map<String,dynamic>> productos = [];
 
+  List<Producto> productos = [];
 
   @override
   void initState() {
@@ -23,7 +27,7 @@ class _HomeScreen extends State<HomeScreen>
   Future<void> _agregarProducto() async {
     final nuevoProducto = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => AddProductoScreen()),
+      MaterialPageRoute(builder: (context) => const AddProductoScreen()),
     );
 
     if(nuevoProducto != null && nuevoProducto is Map<String, dynamic>)
@@ -37,24 +41,27 @@ class _HomeScreen extends State<HomeScreen>
   }
 
   void _navigarAEditar(int index) async {
-    final productoEditado = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => EditProductoScreen(initialValue: productos[index]),
-      )
-    );
+    //final productoEditado = await Navigator.push(
+      //context,
+      //MaterialPageRoute(builder: (context) => EditProductoScreen(initialValue: productos[index]),
+      //)
+    //);
 
-    if (productoEditado != null)
-    {
-      setState(() 
-      {
-        productos[index] = productoEditado;
+    //if (productoEditado != null)
+    //{
+      //setState(() 
+      //{
+        //productos[index] = productoEditado;
         //guardar  
-      });
-    }
+      //});
+    //}
   }
 
   @override
   Widget build(BuildContext context) {
+    final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
+    productos = productoProvider.productos;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Productos'),
@@ -96,16 +103,16 @@ class _HomeScreen extends State<HomeScreen>
                     child: Card(
                       child: ListTile(
                         key: Key('$index'),
-                        title: Text('${productos[index]['name']}'),
-                        subtitle: Text('${productos[index]['description']}'),
+                        title: Text('${productos[index].codigo}'),
+                        subtitle: Text('${productos[index].nombre}'),
                         trailing: IconButton(
                           onPressed: ()
                           {
                             _navigarAEditar(index);
                           },
-                          icon: Icon(Icons.edit),
+                          icon: const Icon(Icons.edit),
                           splashRadius: 20,
-                          padding: EdgeInsets.all(3),
+                          padding: const EdgeInsets.all(3),
                         ),
                       ),
                     )
@@ -146,8 +153,8 @@ class _HomeScreen extends State<HomeScreen>
             _agregarProducto();
           },
           elevation: 5,
+          backgroundColor: const Color.fromRGBO(236, 84, 42, 1),
           child: const Icon(Icons.add),
-          backgroundColor: Color.fromRGBO(236, 84, 42, 1),
         );
   }
 
@@ -156,12 +163,12 @@ class _HomeScreen extends State<HomeScreen>
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('¿Desea eliminar el producto ${productos[index]['nombre']}?'),
+          title: Text('¿Desea eliminar el producto ${productos[index].nombre}?'),
           actions: <Widget>[
             MaterialButton(
               color: Colors.red,
               textColor: Colors.white,
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
               onPressed: () {
                 setState(() {
                   Navigator.pop(context);
@@ -171,7 +178,7 @@ class _HomeScreen extends State<HomeScreen>
             MaterialButton(
               color: Colors.green,
               textColor: Colors.white,
-              child: Text('Aceptar'),
+              child: const Text('Aceptar'),
               onPressed: () async{
                 Navigator.pop(context);
                 //vm.deleteRecord(_records[index]['id']);

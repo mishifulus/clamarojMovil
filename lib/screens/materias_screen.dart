@@ -68,9 +68,9 @@ class _MateriasScreen extends State<MateriasScreen>
                           {
                             //_navigateEdit(index);
                           },
-                          icon: Icon(Icons.edit),
+                          icon: const Icon(Icons.edit),
                           splashRadius: 20,
-                          padding: EdgeInsets.all(3),
+                          padding: const EdgeInsets.all(3),
                         ),
                       ),
                     )
@@ -111,8 +111,8 @@ class _MateriasScreen extends State<MateriasScreen>
             //_agregarContacto();
           },
           elevation: 5,
+          backgroundColor: const Color.fromRGBO(236, 84, 42, 1),
           child: const Icon(Icons.add),
-          backgroundColor: Color.fromRGBO(236, 84, 42, 1),
         );
   }
 }
