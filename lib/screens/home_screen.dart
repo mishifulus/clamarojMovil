@@ -159,6 +159,7 @@ class _HomeScreen extends State<HomeScreen>
   }
 
   Future<void> _displayAlert(BuildContext context, int index) async {
+  final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
   return showDialog(
       context: context,
       builder: (context) {
@@ -181,10 +182,18 @@ class _HomeScreen extends State<HomeScreen>
               child: const Text('Aceptar'),
               onPressed: () async{
                 Navigator.pop(context);
-                //vm.deleteRecord(_records[index]['id']);
-                //_fetchRecords();
-                //vm.showSnackBar(
-                //  'Registro eliminado con éxito',context);
+                productoProvider.deleteProducto(productos[index].idProducto);
+                if(productoProvider.status == 200)
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Producto eliminado con éxito')));
+                }
+                else
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error al eliminar el producto')));
+                }
+                productos = productoProvider.productos;
               },
             ),
           ],

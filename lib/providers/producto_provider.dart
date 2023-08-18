@@ -7,6 +7,7 @@ class ProductoProvider extends ChangeNotifier{
   final String _baseUrl = 'localhost:7092';
 
   List<Producto> productos = [];
+  int status = 0;
 
   ProductoProvider(){
     getProductos();
@@ -45,4 +46,25 @@ class ProductoProvider extends ChangeNotifier{
     });
     notifyListeners();
   }
+
+  Future<void> deleteProducto(int? id) async {
+    final url = Uri.https('localhost:7092', 'api/Productos/$id');
+
+    final response = await http.delete(url);
+    status = response.statusCode;
+
+    if (response.statusCode == 200) {
+      print('Producto eliminado con éxito');
+      // Puedes realizar cualquier acción adicional que necesites aquí
+    } else {
+      print('Error al eliminar el producto: ${response.statusCode}');
+      // Puedes manejar el error de acuerdo a tus necesidades
+    }
+  }
+
+
+
+
+
+
 }
