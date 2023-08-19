@@ -17,10 +17,6 @@ class Drawers {
     
   }) {
     final authNotifier = Provider.of<AuthNotifier>(context);
-
-    String infoText = authNotifier.isLoggedIn
-        ? title + '\nUsuario: ${authNotifier.userEmail}'
-        : title + '\nNot Logged In';
     
     return Drawer(
         child: ListView(
@@ -34,7 +30,7 @@ class Drawers {
               ),
               child: 
               Text(
-                infoText,
+                title,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
