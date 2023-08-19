@@ -11,8 +11,7 @@ class Materia {
     int? cantMaxima;
     int? precio;
     String? foto;
-    int? merma;
-    int? estatus;
+    String? estatus;
 
     Materia({
         this.id,
@@ -25,7 +24,6 @@ class Materia {
         this.cantMaxima,
         this.precio,
         this.foto,
-        this.merma,
         this.estatus,
     });
 
@@ -42,7 +40,6 @@ class Materia {
         cantMaxima: json["cantMaxima"],
         precio: json["precio"],
         foto: json["foto"],
-        merma: json["merma"],
         estatus: json["estatus"],
     );
 
@@ -57,7 +54,6 @@ class Materia {
         "cantMaxima": cantMaxima,
         "precio": precio,
         "foto": foto,
-        "merma": merma,
         "estatus": estatus,
     };
 }

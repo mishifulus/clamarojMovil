@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:clamaroj/models/materia.dart';
+import 'package:clamaroj/screens/add_materia_screen.dart';
+import 'package:clamaroj/screens/edit_materia_screen.dart';
 import 'package:clamaroj/widgets/drawers.dart';
+import 'package:provider/provider.dart';
+import 'package:clamaroj/providers/materia_provider.dart';
 
 class MateriasScreen extends StatefulWidget {
   const MateriasScreen({Key? key}) : super(key: key);
@@ -10,16 +15,77 @@ class MateriasScreen extends StatefulWidget {
 
 class _MateriasScreen extends State<MateriasScreen>
 {
-  List<Map<String,dynamic>> materias = [];
+  List<Materia> materias = [];
 
 
   @override
   void initState() {
     super.initState();
+    _fetch();
+  }
+
+  Future<void> _agregarMateria() async {
+    final materiaProvider = Provider.of<MateriaProvider>(context, listen: false);
+    materias = materiaProvider.materias;
+
+    final nuevoMateria = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddMateriaScreen()),
+    );
+
+    if(nuevoMateria != null && nuevoMateria is Materia)
+    {
+      if(await materiaProvider.postMateria(nuevoMateria))
+        {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Materia prima agregada con éxito')));
+        }
+        else
+        {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error al agregar la materia prima')));
+        }
+      materias = materiaProvider.materias;
+    }
+  }
+
+  Future<void> _fetch() async {
+    final materiaProvider = Provider.of<MateriaProvider>(context, listen: false);
+    materias = materiaProvider.materias;
+  }
+
+  void _navigarAEditar(int index) async {
+    final materiaProvider = Provider.of<MateriaProvider>(context, listen: false);
+    materias = materiaProvider.materias;
+
+    final materiaEditado = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditMateriaScreen(initialValue: materias[index]),
+      )
+    );
+
+    if (materiaEditado != null)
+    {
+      final id = materias[index].id ?? 0;
+      if(await materiaProvider.putMateria(id, materiaEditado))
+      {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Materia prima editada con éxito')));
+      }
+      else
+      {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al editar la materia prima')));
+      }
+      _fetch();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final materiaProvider = Provider.of<MateriaProvider>(context, listen: false);
+    materias = materiaProvider.materias;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Materias Primas'),
@@ -41,7 +107,7 @@ class _MateriasScreen extends State<MateriasScreen>
                     {
                       setState(() 
                       {
-                        //_displayAlert(context, index);
+                        _displayAlert(context, index);
                       });
                     },
                     secondaryBackground: Container(
@@ -61,12 +127,12 @@ class _MateriasScreen extends State<MateriasScreen>
                     child: Card(
                       child: ListTile(
                         key: Key('$index'),
-                        title: Text('${materias[index]['name']}'),
-                        subtitle: Text('${materias[index]['description']}'),
+                        title: Text('${materias[index].codigo}'),
+                        subtitle: Text('${materias[index].nombre}'),
                         trailing: IconButton(
                           onPressed: ()
                           {
-                            //_navigateEdit(index);
+                            _navigarAEditar(index);
                           },
                           icon: const Icon(Icons.edit),
                           splashRadius: 20,
@@ -108,11 +174,54 @@ class _MateriasScreen extends State<MateriasScreen>
   FloatingActionButton botonAgregar(BuildContext context) {
     return FloatingActionButton(
           onPressed: () {
-            //_agregarContacto();
+            _agregarMateria();
           },
           elevation: 5,
           backgroundColor: const Color.fromRGBO(236, 84, 42, 1),
           child: const Icon(Icons.add),
         );
+  }
+
+  Future<void> _displayAlert(BuildContext context, int index) async {
+  final materiaProvider = Provider.of<MateriaProvider>(context, listen: false);
+  
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('¿Desea eliminar la materia prima ${materias[index].nombre}?'),
+          actions: <Widget>[
+            MaterialButton(
+              color: Colors.red,
+              textColor: Colors.white,
+              child: const Text('Cancelar'),
+              onPressed: () {
+                setState(() {
+                  Navigator.pop(context);
+                });
+              },
+            ),
+            MaterialButton(
+              color: Colors.green,
+              textColor: Colors.white,
+              child: const Text('Aceptar'),
+              onPressed: () async{
+                if(await materiaProvider.deleteMateria(materias[index].id))
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Materia prima eliminada con éxito')));
+                }
+                else
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error al eliminar la materia prima')));
+                }
+                _fetch();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      });
   }
 }

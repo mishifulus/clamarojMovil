@@ -1,3 +1,4 @@
+import 'package:clamaroj/providers/materia_provider.dart';
 import 'package:clamaroj/providers/usuario_provider.dart';
 import 'package:clamaroj/providers/authnotifier.dart';
 import 'package:clamaroj/providers/producto_provider.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => Usuario_provider()),
         ChangeNotifierProvider(create: (_) => AuthNotifier()),
-        ChangeNotifierProvider(create: (_) => ProductoProvider())
+        ChangeNotifierProvider(create: (_) => ProductoProvider()),
+        ChangeNotifierProvider(create: (_) => MateriaProvider())
         ], //Otro provider
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
