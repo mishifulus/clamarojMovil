@@ -14,26 +14,28 @@ class Login_provider with ChangeNotifier{
   };
   int status = 0;
 
-  getLogin(String correo, String pass) async {
-
+  Future<bool> getLogin(String correo, String pass) async {
+    bool correct;
     final url = Uri.https(_baseUrl, 'api/Auth/login');
     final body = {
       "correo": correo,
       "password": pass,
     };
 
-    final response = await http.post(url, body: jsonEncode(body));
+    final response = await http.post(url, headers: headers, body: jsonEncode(body));
     status = response.statusCode;
 
     if (response.statusCode == 200) {
       // La solicitud se realizó con éxito, puedes procesar la respuesta aquí
       print('Respuesta: ${response.body}');
+      correct = true;
     } else {
       // Manejar el error de la solicitud
       print('Error en la solicitud: ${response.statusCode}');
+      correct = false;
     }
-    
-    notifyListeners();
+    //notifyListeners();
+    return correct;
   }
 
 }

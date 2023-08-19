@@ -101,7 +101,7 @@ class ProductoProvider extends ChangeNotifier{
       body: jsonEncode(producto.toMap()), // Asegúrate de que tu clase Producto tenga un método toMap()
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 204) {
       print('Producto editado con éxito');
       correct = true;
       // Puedes realizar cualquier acción adicional que necesites aquí

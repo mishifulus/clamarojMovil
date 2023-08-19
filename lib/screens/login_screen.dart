@@ -119,22 +119,19 @@ class _LoginScreenState extends State<LoginScreen>
                                   final correo = txtCorreo.text;
                                   final pass = txtPass.text;
 
-                                  //final loginProvider = Provider.of<Login_provider>(context, listen: false);
-                                  //await loginProvider.getLogin(correo, pass);
+                                  final loginProvider = Provider.of<Login_provider>(context, listen: false);
 
-                                  //int statusCode = loginProvider.status;
-
-                                  //if (statusCode == 200)
-                                  //{
+                                  if (await loginProvider.getLogin(correo, pass))
+                                  {
                                     final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
                                     authNotifier.logIn(correo);
                                     Navigator.pushReplacementNamed(context, 'productos');
-                                  //}
-                                  //else
-                                  //{
-                                    //ScaffoldMessenger.of(context).showSnackBar(
-                                      //SnackBar(content: Text('Usuario o contraseña incorrectos')));
-                                  //}
+                                  }
+                                  else
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Usuario o contraseña incorrectos')));
+                                  }
                                 },
                               )
                             ],
