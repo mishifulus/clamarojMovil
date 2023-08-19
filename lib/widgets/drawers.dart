@@ -1,3 +1,5 @@
+import 'package:clamaroj/models/usuarioc.dart';
+import 'package:clamaroj/services/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:clamaroj/screens/home_screen.dart';
 import 'package:clamaroj/screens/materias_screen.dart';
@@ -88,6 +90,7 @@ class Drawers {
                   ),
                 onTap: () {
                   authNotifier.logOut();
+                  Preferences.usuario = Usuarioc();
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => LoginScreen()),

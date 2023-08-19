@@ -1,5 +1,7 @@
 import 'package:clamaroj/models/usuario.dart';
+import 'package:clamaroj/models/usuarioc.dart';
 import 'package:clamaroj/providers/usuario_provider.dart';
+import 'package:clamaroj/services/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:clamaroj/widgets/input_decoration.dart';
 import 'package:provider/provider.dart';
@@ -129,6 +131,9 @@ class _LoginScreenState extends State<LoginScreen>
                                     if(usuario.correo == correo && usuario.nombre == pass)
                                     {
                                       acceso = true;
+                                      Preferences.usuario = Usuarioc(
+                                         id: usuario.id,
+                                      );
                                     }
                                   }
 

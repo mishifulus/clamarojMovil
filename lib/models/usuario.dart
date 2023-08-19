@@ -1,41 +1,32 @@
 import 'dart:convert';
 
-Usuario usuarioFromJson(String str) => Usuario.fromJson(json.decode(str));
-
-String usuarioToJson(Usuario data) => json.encode(data.toJson());
-
 class Usuario {
-    int id;
-    String nombre;
-    String apellido;
-    String correo;
-    String password;
-    String foto;
-    DateTime fechaNacimiento;
-    DateTime fechaRegistro;
-    int idStatus;
-    List<dynamic> rolesUsuario;
-    dynamic proveedor;
-    dynamic cliente;
-    List<dynamic> pedidos;
+    int? id;
+    String? nombre;
+    String? apellido;
+    String? correo;
+    String? password;
+    String? foto;
+    DateTime? fechaNacimiento;
+    DateTime? fechaRegistro;
+    int? idStatus;
 
     Usuario({
-        required this.id,
-        required this.nombre,
-        required this.apellido,
-        required this.correo,
-        required this.password,
-        required this.foto,
-        required this.fechaNacimiento,
-        required this.fechaRegistro,
-        required this.idStatus,
-        required this.rolesUsuario,
-        required this.proveedor,
-        required this.cliente,
-        required this.pedidos,
+        this.id,
+        this.nombre,
+        this.apellido,
+        this.correo,
+        this.password,
+        this.foto,
+        this.fechaNacimiento,
+        this.fechaRegistro,
+        this.idStatus,
     });
 
-    factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
+    factory Usuario.fromJson(String str) => Usuario.fromMap(json.decode(str));
+    String toJson() => json.encode(toMap());
+
+    factory Usuario.fromMap(Map<String, dynamic> json) => Usuario(
         id: json["id"],
         nombre: json["nombre"],
         apellido: json["apellido"],
@@ -44,26 +35,18 @@ class Usuario {
         foto: json["foto"],
         fechaNacimiento: DateTime.parse(json["fechaNacimiento"]),
         fechaRegistro: DateTime.parse(json["fechaRegistro"]),
-        idStatus: json["idStatus"],
-        rolesUsuario: List<dynamic>.from(json["rolesUsuario"].map((x) => x)),
-        proveedor: json["proveedor"],
-        cliente: json["cliente"],
-        pedidos: List<dynamic>.from(json["pedidos"].map((x) => x)),
+        idStatus: json["idStatus"]
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
         "id": id,
         "nombre": nombre,
         "apellido": apellido,
         "correo": correo,
         "password": password,
         "foto": foto,
-        "fechaNacimiento": fechaNacimiento.toIso8601String(),
-        "fechaRegistro": fechaRegistro.toIso8601String(),
+        "fechaNacimiento": fechaNacimiento?.toIso8601String(),
+        "fechaRegistro": fechaRegistro?.toIso8601String(),
         "idStatus": idStatus,
-        "rolesUsuario": List<dynamic>.from(rolesUsuario.map((x) => x)),
-        "proveedor": proveedor,
-        "cliente": cliente,
-        "pedidos": List<dynamic>.from(pedidos.map((x) => x)),
     };
 }

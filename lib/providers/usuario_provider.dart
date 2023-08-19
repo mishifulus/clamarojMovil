@@ -49,10 +49,6 @@ class Usuario_provider with ChangeNotifier{
         fechaNacimiento: DateTime.parse(elemento['fechaNacimiento']),
         fechaRegistro: DateTime.parse(elemento['fechaRegistro']),
         idStatus: elemento['idStatus'],
-        rolesUsuario: List<dynamic>.from(elemento['rolesUsuario'].map((x) => x)),
-        proveedor: elemento['proveedor'],
-        cliente: elemento['cliente'],
-        pedidos: List<dynamic>.from(elemento['pedidos'].map((x) => x)),
       );
 
       usuarios.add(usuario);
