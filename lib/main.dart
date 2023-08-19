@@ -1,4 +1,4 @@
-import 'package:clamaroj/providers/login_provider.dart';
+import 'package:clamaroj/providers/usuario_provider.dart';
 import 'package:clamaroj/providers/authnotifier.dart';
 import 'package:clamaroj/providers/producto_provider.dart';
 import 'package:clamaroj/screens/home_screen.dart';
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => Login_provider()),
+        ChangeNotifierProvider(create: (_) => Usuario_provider()),
         ChangeNotifierProvider(create: (_) => AuthNotifier()),
         ChangeNotifierProvider(create: (_) => ProductoProvider())
         ], //Otro provider

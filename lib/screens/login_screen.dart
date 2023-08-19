@@ -1,4 +1,5 @@
-import 'package:clamaroj/providers/login_provider.dart';
+import 'package:clamaroj/models/usuario.dart';
+import 'package:clamaroj/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:clamaroj/widgets/input_decoration.dart';
 import 'package:provider/provider.dart';
@@ -119,9 +120,19 @@ class _LoginScreenState extends State<LoginScreen>
                                   final correo = txtCorreo.text;
                                   final pass = txtPass.text;
 
-                                  final loginProvider = Provider.of<Login_provider>(context, listen: false);
+                                  final usuarioProvider = Provider.of<Usuario_provider>(context, listen: false);
+                                  List<Usuario> usuarios = await usuarioProvider.getUsuarios();
+                                  bool acceso = false;
+                                  
+                                  for (Usuario usuario in usuarios)
+                                  {
+                                    if(usuario.correo == correo && usuario.nombre == pass)
+                                    {
+                                      acceso = true;
+                                    }
+                                  }
 
-                                  if (await loginProvider.getLogin(correo, pass))
+                                  if (acceso)
                                   {
                                     final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
                                     authNotifier.logIn(correo);

@@ -27,7 +27,7 @@ class ProductoProvider extends ChangeNotifier{
     }
   }
 
-  getProductos() async {
+  Future<List<Producto>> getProductos() async {
     final jsonData = await _getJsonData('api/Productos');
     final data = json.decode(jsonData);
 
@@ -44,7 +44,7 @@ class ProductoProvider extends ChangeNotifier{
 
       productos.add(producto);
     });
-    notifyListeners();
+    return productos;
   }
 
   Future<bool> deleteProducto(int? id) async {
