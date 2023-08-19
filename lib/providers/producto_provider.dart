@@ -47,24 +47,71 @@ class ProductoProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> deleteProducto(int? id) async {
+  Future<bool> deleteProducto(int? id) async {
     final url = Uri.https('localhost:7092', 'api/Productos/$id');
+    bool correct;
 
     final response = await http.delete(url);
-    status = response.statusCode;
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 204) {
       print('Producto eliminado con éxito');
+      correct = true;
       // Puedes realizar cualquier acción adicional que necesites aquí
     } else {
       print('Error al eliminar el producto: ${response.statusCode}');
+      correct = false;
       // Puedes manejar el error de acuerdo a tus necesidades
     }
+    return correct;
   }
 
+  Future<bool> postProducto(Producto producto) async {
+    bool correct;
+    final String baseUrl = 'https://localhost:7092/api/Productos';
 
+    final response = await http.post(
+      Uri.parse(baseUrl),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(producto.toMap()), // Asegúrate de que tu clase Producto tenga un método toMap()
+    );
 
+    if (response.statusCode == 201) {
+      print('Producto agregado con éxito');
+      correct = true;
+      // Puedes realizar cualquier acción adicional que necesites aquí
+    } else {
+      print('Error al agregar el producto: ${response.statusCode}');
+      correct = false;
+      // Puedes manejar el error de acuerdo a tus necesidades
+    }
+    return correct;
+  }
 
+  Future<bool> putProducto(int id, Producto producto) async {
+    bool correct;
+    final String baseUrl = 'https://localhost:7092/api/Productos';
+
+    final response = await http.put(
+      Uri.parse('$baseUrl/$id'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(producto.toMap()), // Asegúrate de que tu clase Producto tenga un método toMap()
+    );
+
+    if (response.statusCode == 200) {
+      print('Producto editado con éxito');
+      correct = true;
+      // Puedes realizar cualquier acción adicional que necesites aquí
+    } else {
+      print('Error al editar el producto: ${response.statusCode}');
+      correct = false;
+      // Puedes manejar el error de acuerdo a tus necesidades
+    }
+    return correct;
+  }
 
 
 }

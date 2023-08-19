@@ -126,8 +126,8 @@ class _LoginScreenState extends State<LoginScreen>
 
                                   //if (statusCode == 200)
                                   //{
-                                    //final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
-                                    //authNotifier.logIn(correo);
+                                    final authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+                                    authNotifier.logIn(correo);
                                     Navigator.pushReplacementNamed(context, 'productos');
                                   //}
                                   //else

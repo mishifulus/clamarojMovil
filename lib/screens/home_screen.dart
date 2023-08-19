@@ -22,39 +22,64 @@ class _HomeScreen extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
+    _fetch();
   }
 
   Future<void> _agregarProducto() async {
+    final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
+    productos = productoProvider.productos;
+
     final nuevoProducto = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const AddProductoScreen()),
     );
 
-    if(nuevoProducto != null && nuevoProducto is Map<String, dynamic>)
+    if(nuevoProducto != null && nuevoProducto is Producto)
     {
-      setState(()
-      {
-        //agregar
-      });
-      //guardar arreglo
+      if(await productoProvider.postProducto(nuevoProducto))
+        {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Producto agregado con éxito')));
+        }
+        else
+        {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error al agregar el producto')));
+        }
+      productos = productoProvider.productos;
     }
   }
 
-  void _navigarAEditar(int index) async {
-    //final productoEditado = await Navigator.push(
-      //context,
-      //MaterialPageRoute(builder: (context) => EditProductoScreen(initialValue: productos[index]),
-      //)
-    //);
+  Future<void> _fetch() async {
+    final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
+    productos = productoProvider.productos;
+  }
 
-    //if (productoEditado != null)
-    //{
-      //setState(() 
-      //{
-        //productos[index] = productoEditado;
-        //guardar  
-      //});
-    //}
+  void _navigarAEditar(int index) async {
+    final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
+    productos = productoProvider.productos;
+
+    final productoEditado = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditProductoScreen(initialValue: productos[index]),
+      )
+    );
+
+    if (productoEditado != null)
+    {
+      final id = productos[index].idProducto ?? 0;
+      if(await productoProvider.putProducto(id, productoEditado))
+      {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Producto editado con éxito')));
+      }
+      else
+      {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al editado el producto')));
+      }
+      _fetch();
+    }
   }
 
   @override
@@ -181,9 +206,7 @@ class _HomeScreen extends State<HomeScreen>
               textColor: Colors.white,
               child: const Text('Aceptar'),
               onPressed: () async{
-                Navigator.pop(context);
-                productoProvider.deleteProducto(productos[index].idProducto);
-                if(productoProvider.status == 200)
+                if(await productoProvider.deleteProducto(productos[index].idProducto))
                 {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Producto eliminado con éxito')));
@@ -193,7 +216,8 @@ class _HomeScreen extends State<HomeScreen>
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Error al eliminar el producto')));
                 }
-                productos = productoProvider.productos;
+                _fetch();
+                Navigator.pop(context);
               },
             ),
           ],
